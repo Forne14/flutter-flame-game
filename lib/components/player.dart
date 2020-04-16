@@ -10,7 +10,7 @@ class Player {
   bool isDead = false;
 
   Player(this.gameController){
-    maxhealth = currentHealth = 300;
+    maxhealth = currentHealth = 7000;
     //size of player is 1.5 the size of a game tile which is itself
     // the tenth the size of of the screen
     final _size = gameController.tilesize * 1.5;
@@ -26,9 +26,20 @@ class Player {
     Paint colour = Paint()..color = Color(0xFF0000FF);
     canvas.drawRect(playerRect, colour);
   }
+  void accrueDamage(int damage){
+    if(!isDead){
+      currentHealth = currentHealth - damage;
+      if(currentHealth <= 0){
+        isDead = true;
+      }
+    }
+  }
 
   void update(double t){
-
+    if(!isDead && currentHealth <= 0){
+      isDead = true;
+      gameController.initialise();
+    }
   }
 
 }
